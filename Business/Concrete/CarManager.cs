@@ -21,28 +21,28 @@ namespace Business.Concrete
 
         public void Add(Car car)
         {
-            _carDal.Add(car);
+            if (car.Description.Length >= 2 && car.DailyPrice > 0)
+            {
+                _carDal.Add(car);
+                Console.WriteLine("Sisteme " + car.Id + " numaralı " + car.Description + " model araç bilgisi eklendi.");
+            }
+            else if (car.Description.Length < 2)
+            {
+                Console.WriteLine("Araç model açıklaması en az 2 karakter olmalıdır. ");
+            }
+            else if (car.DailyPrice == 0)
+            {
+                Console.WriteLine("Araç günlük kira fiyatı 0'dan büyük olmalıdır.");
+            }
         }
 
         public void Delete(Car car)
         {
             _carDal.Delete(car);
-        }
-
-        public Car Get(Expression<Func<Car, bool>> filter)
-        {
-            using (ReCapDatabaseContext context = new ReCapDatabaseContext())
-            {
-                return context.Set<Car>().SingleOrDefault(filter);
-            }
+            Console.WriteLine("Sistemden " + car.Id + " numaralı " + car.Description + " model araç bilgisi silindi.");
         }
 
         public List<Car> GetAll()
-        {
-            return _carDal.GetAll();
-        }
-
-        public List<Car> GetAll(Expression<Func<Car, bool>> filter = null)
         {
             return _carDal.GetAll();
         }
@@ -59,7 +59,8 @@ namespace Business.Concrete
 
         public void Update(Car car)
         {
-             _carDal.Update(car);
+            _carDal.Update(car);
+            Console.WriteLine("Sistemde yer alan " + car.Id + " numaralı " + car.Description + " model araç bilgisi güncellendi.");
         }
     }
 }

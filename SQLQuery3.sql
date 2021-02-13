@@ -1,0 +1,2 @@
+﻿ALTER TABLE cars
+ADD FOREIGN KEY (ColorId) REFERENCES Colors(ColorId);
