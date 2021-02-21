@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 using Entities.Concrete;
+using Core.Utilities;
+using Business.Constants;
+using Color = Entities.Concrete.Color;
 
 namespace Business.Concrete
 {
@@ -17,32 +20,39 @@ namespace Business.Concrete
             _colorDal = colorDal;
         }
 
-        public void Add(Entities.Concrete.Color color)
+
+        public IResult Add(Entities.Concrete.Color entity)
         {
-            _colorDal.Add(color);
-            Console.WriteLine("Sisteme " + color.ColorId + " numaralı " + color.ColorName + " renk araç bilgisi eklendi.");
+            _colorDal.Add(entity);
+            return new SuccessResult(Messages.ColorAdded);
         }
 
-        public void Delete(Entities.Concrete.Color color)
+        public IResult Delete(Entities.Concrete.Color entity)
         {
-            _colorDal.Delete(color);
-            Console.WriteLine("Sistemden " + color.ColorId + " numaralı " + color.ColorName + " renk araç bilgisi silindi.");
+            _colorDal.Delete(entity);
+            return new SuccessResult(Messages.ColorDeleted);
         }
 
-        public List<Entities.Concrete.Color> GetAll()
+        public IDataResult<List<Color>> GetAll()
         {
-            return _colorDal.GetAll();
+            return new SuccessDataResult<List<Color>>(_colorDal.GetAll(), Messages.ColorListed);
         }
 
-        public List<Entities.Concrete.Color> GetCarsByColorId(int colorId)
+
+        public IDataResult<List<Color>> GetColorsByColorId(int colorId)
         {
-            return _colorDal.GetAll(c => c.ColorId == colorId); 
+            return new SuccessDataResult<List<Color>>(_colorDal.GetAll(c => c.ColorId == colorId));
         }
 
-        public void Update(Entities.Concrete.Color color)
+        public IDataResult<List<Color>> GetColorsByColorName(string colorName)
         {
-            _colorDal.Update(color);
-            Console.WriteLine("Sistemde yer alan " + color.ColorId + " numaralı " + color.ColorName + " renk araç bilgisi güncellendi.");
+            return new SuccessDataResult<List<Color>>(_colorDal.GetAll(c => c.ColorName == colorName));
+        }
+
+        public IResult Update(Color entity)
+        {
+            _colorDal.Update(entity);
+            return new SuccessResult(Messages.ColorUpdated);
         }
     }
 }

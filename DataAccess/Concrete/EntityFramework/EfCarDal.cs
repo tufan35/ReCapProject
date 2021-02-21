@@ -14,26 +14,26 @@ namespace DataAccess.Concrete.EntityFramework
 {
     public class EfCarDal : EfEntityRepositoryBase<Car, ReCapDatabaseContext>, ICarDal
     {
-        public List<CarDetailDto> GetCarDetails()
+        public List<CarDetailDto> GetCarDetailDtos()
         {
             using (ReCapDatabaseContext context = new ReCapDatabaseContext())
             {
-                var result = from c in context.Cars
-                             join b in context.Brands
-                             on c.BrandId equals b.BrandId
-                             join k in context.Colors
-                             on c.ColorId equals k.ColorId
+                var result = 
+                             
+                             from c in context.Cars
+                             join b in context.Brands on c.BrandId equals b.BrandId
+                             join k in context.Colors on c.ColorId equals k.ColorId
                              select new CarDetailDto
                              {
-                                 Id = c.Id,
                                  BrandId = b.BrandId,
-                                 ColorId = k.ColorId,
-                                 DailyPrice = c.DailyPrice,
-                                 Description = c.Description,
-                                 ModelYear = c.ModelYear
+                                 ColorName = k.ColorName,
+                                 BrandName = b.BrandName,
+                                 DailyPrice = c.DailyPrice
                              };
                 return result.ToList();
             }
         }
     }
 }
+
+//veri uyumuna bak !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

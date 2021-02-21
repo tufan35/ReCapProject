@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -17,32 +19,37 @@ namespace Business.Concrete
         }
 
 
-        public void Add(Brand brand)
+        public IResult Add(Brand entity)
         {
-            _brandDal.Add(brand);
-            Console.WriteLine("Sisteme " + brand.BrandId + " numaralı " + brand.BrandName + " marka araç bilgisi eklendi.");
+            _brandDal.Add(entity);
+            return new SuccessResult(Messages.BrandAdded);
         }
 
-        public void Delete(Brand brand)
+        public IResult Delete(Brand entity)
         {
-            _brandDal.Delete(brand);
-            Console.WriteLine("Sistemden " + brand.BrandId + " numaralı " + brand.BrandName + " marka araç bilgisi silindi.");
+            _brandDal.Delete(entity);
+            return new SuccessResult(Messages.BrandDeleted);
         }
 
-        public List<Brand> GetAll()
+        public IDataResult<List<Brand>> GetAll()
         {
-            return _brandDal.GetAll();
+            return new SuccessDataResult<List<Brand>>(_brandDal.GetAll(), Messages.BrandListed);
         }
 
-        public List<Brand> GetCarsByBrandId(int brandId)
+        public IDataResult<List<Brand>> GetBrandsByBrandId(int brandId)
         {
-            return _brandDal.GetAll(b => b.BrandId == brandId);
+            return new SuccessDataResult<List<Brand>>(_brandDal.GetAll(b => b.BrandId == brandId));
         }
 
-        public void Update(Brand brand)
+        public IDataResult<List<Brand>> GetBrandsByBrandName(string brandName)
         {
-            _brandDal.Update(brand);
-            Console.WriteLine("Sistemde yer alan " + brand.BrandId + " numaralı " + brand.BrandName + " marka araç bilgisi güncellendi.");
+            return new SuccessDataResult<List<Brand>>(_brandDal.GetAll(b => b.BrandName == brandName));
+        }
+
+        public IResult Update(Brand entity)
+        {
+            _brandDal.Update(entity);
+            return new SuccessResult(Messages.BrandUpdated);
         }
     }
 }

@@ -14,11 +14,13 @@ namespace ReCapProject
         static void Main(string[] args)
         {
             ////***************VİEW*********
-  
+
             //BrandTest();
             //ColorTest();
-            //CarTest();
 
+            //CarTest();
+            // UserTest();
+           RentalTest();
 
 
             ICarDal efCarDal = new EfCarDal();
@@ -30,51 +32,98 @@ namespace ReCapProject
 
 
 
-           // AddTest(carManager, brandManager, colorManager);
-            UpdateTest(carManager, brandManager, colorManager);
+            // AddTest(carManager, brandManager, colorManager);
+            //UpdateTest(carManager, brandManager, colorManager);
 
 
-        
+
             Console.ReadLine();
         }
 
 
 
 
-        private static void CarTest()
+        private static void CarTest() 
         {
             CarManager carManager = new CarManager(new EfCarDal());
-
-            foreach (var car in carManager.GetAll())
+            var result = carManager.GetCarDetailDtos();
+            if (result.Success == true)
             {
-                Console.WriteLine("Brand Id = " + car.BrandId + "  |  "
-                    + "Color Id = " + car.ColorId + "  |  "
-                    + "Model Year = " + car.ModelYear + "  |  "
-                    + "Description = " + car.Description + "  --->  "
-                    + "Daily Price = " + car.DailyPrice + " TL");
+                foreach (var car in result.Data)
+                {
+                    Console.WriteLine(car.BrandName + " markalı " + car.ColorName + " renkli aracın günlük fiyatı : " + car.DailyPrice);
+                }
             }
+        
         }
 
-        private static void BrandTest()
+       private static void UserTest()
         {
-            BrandManager brandManager = new BrandManager(new EfBrandDal());
-
-            foreach (var brand in brandManager.GetAll())
+            UserManager userManager = new UserManager(new EfUserDal());
+            User user = new User
             {
-                Console.WriteLine("Brand Id = " + brand.BrandId + "  |  " + "Brand Name = " + brand.BrandName);
+                FirstName = "TUFAN",
+                LastName = "ÇEVİK",
+                Email = "tufancevikk@gmail.com",
+                Password = "123456789"
+            };
+            userManager.Add(user);
+
+            var result = userManager.GetAll();
+            if (result.Success ==true )
+            {
+                foreach (var users in result.Data)
+                {
+                    Console.WriteLine(users.FirstName + " " + users.LastName + "\n");
+                }
             }
+            else
+            {
+                Console.WriteLine(result.Message);
+            }
+
+
         }
 
-
-        private static void ColorTest()
+        private static void RentalTest()
         {
-            ColorManager colorManager = new ColorManager(new EfColorDal());
-
-            foreach (var color in colorManager.GetAll())
+            RentalManager rentalsManager = new RentalManager(new EfRentalDal());
+            DateTime rentDate = new DateTime(2017, 10, 6);
+            DateTime returnDate = new DateTime(2018, 10, 18);
+            Rental rentals = new Rental
             {
-                Console.WriteLine("Brand Id = " + color.ColorId + "  |  " + "Brand Name = " + color.ColorName);
-            }
+                CarId = 1,
+                CustomerId = 1,
+                RentDate = rentDate,
+                ReturnDate = returnDate
+                
+            };
+            var result = rentalsManager.Add(rentals);
+            Console.WriteLine(result.Message);
+
+
         }
+
+        //private static void BrandTest()
+        //{
+        //    BrandManager brandManager = new BrandManager(new EfBrandDal());
+
+        //    foreach (var brand in brandManager.GetAll())
+        //    {
+        //        Console.WriteLine("Brand Id = " + brand.BrandId + "  |  " + "Brand Name = " + brand.BrandName);
+        //    }
+        //}
+
+
+        //private static void ColorTest()
+        //{
+        //    ColorManager colorManager = new ColorManager(new EfColorDal());
+
+        //    foreach (var color in colorManager.GetAll())
+        //    {
+        //        Console.WriteLine("Brand Id = " + color.ColorId + "  |  " + "Brand Name = " + color.ColorName);
+        //    }
+        //}
 
 
 
@@ -97,7 +146,7 @@ namespace ReCapProject
             Console.WriteLine("------------Veritabanı Güncelleme---------");
             brandManager.Update(new Brand { BrandId = 4, BrandName = "LİNEA" });
             colorManager.Update(new Color { ColorId = 2, ColorName = "SİYAH" });
-            carManager.Update(new Car { Id = 5, BrandId = 4, ColorId = 2, ModelYear = 2000, DailyPrice = 450, Description = "FİAT LİNEA" });
+            carManager.Update(new Car { CarId = 5, BrandId = 4, ColorId = 2, ModelYear = 2000, DailyPrice = 450, Description = "FİAT LİNEA" });
 
         }
     }
