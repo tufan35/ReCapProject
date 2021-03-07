@@ -8,6 +8,8 @@ using Entities.Concrete;
 using Core.Utilities;
 using Business.Constants;
 using Color = Entities.Concrete.Color;
+using Core.Aspects.Autofac;
+using Business.FluentValidation;
 
 namespace Business.Concrete
 {
@@ -20,7 +22,7 @@ namespace Business.Concrete
             _colorDal = colorDal;
         }
 
-
+        [ValidationAspects(typeof(ColorValidator))]
         public IResult Add(Entities.Concrete.Color entity)
         {
             _colorDal.Add(entity);

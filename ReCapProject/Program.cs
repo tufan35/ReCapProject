@@ -134,7 +134,7 @@ namespace ReCapProject
           
             brandManager.Add(new Brand { BrandName = "FİAT" });
             colorManager.Add(new Color { ColorName = "GRİ" });
-            carManager.Add(new Car { BrandId = 4, ColorId = 4, ModelYear = 2015, DailyPrice = 500, Description = "FİAT DOBLO" });
+            carManager.Add(new Car { BrandId = 4, ColorId = 4, ModelYear = "2015", DailyPrice = 500, Description = "FİAT DOBLO" });
 
 
 
@@ -146,7 +146,7 @@ namespace ReCapProject
             Console.WriteLine("------------Veritabanı Güncelleme---------");
             brandManager.Update(new Brand { BrandId = 4, BrandName = "LİNEA" });
             colorManager.Update(new Color { ColorId = 2, ColorName = "SİYAH" });
-            carManager.Update(new Car { CarId = 5, BrandId = 4, ColorId = 2, ModelYear = 2000, DailyPrice = 450, Description = "FİAT LİNEA" });
+            carManager.Update(new Car { CarId = 5, BrandId = 4, ColorId = 2, ModelYear = "2000", DailyPrice = 450, Description = "FİAT LİNEA" });
 
         }
     }

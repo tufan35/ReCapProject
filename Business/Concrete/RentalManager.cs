@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.FluentValidation;
+using Core.Aspects.Autofac;
 using Core.Utilities;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -19,6 +21,8 @@ namespace Business.Concrete
             _rentalDal = rentalDal;
         }
 
+
+        [ValidationAspects(typeof(RentalValidator))]
         public IResult Add(Rental entity)
         {
             var result = CheckReturnDate(entity.CarId);
