@@ -21,7 +21,7 @@ namespace WebAPI.Controllers
         }
 
 
-        [HttpGet("getall")]
+        [HttpGet("getall")]  // api/brands/getbyid?brandId=num
         public IActionResult GetAll()
         {
             var result = _brandService.GetAll();
